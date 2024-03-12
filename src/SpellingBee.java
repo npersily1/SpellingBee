@@ -62,24 +62,45 @@ public class SpellingBee {
     // TODO: Apply mergesort to sort all words. Do this by calling ANOTHER method
     //  that will find the substrings recursively.
     public void sort() {
-        // YOUR CODE HERE
-        //mergeSort(0, words.size());
+
+        String[] sortedList = mergeSort(0, words.size() - 1);
+        for (int i = 0; i < sortedList.length; i++) {
+            words.set(i, sortedList[i]);
+        }
     }
 
-    public void mergeSort(int low, int high) {
-        if (low == high) {
-            String[] list = new  String[1];
+    public String[] mergeSort(int low, int high) {
+        if (low >= high) {
+            String[] list = new String[1];
             list[0] = words.get(low);
-            return;
+            return list;
         }
         int mid = (low + high) / 2;
-        mergeSort(low, mid);
-        mergeSort(low, mid);
-      //  merge();
+        return merge(mergeSort(low, mid), mergeSort(mid + 1, high));
     }
 
-    public void merge(int low, int high) {
-       // int
+    public String[] merge(String[] arr1, String[] arr2) {
+        String[] newArr = new String[arr1.length + arr2.length];
+        int c1 = 0;
+        int c2 = 0;
+        int c3 = 0;
+
+        while (c2 < arr2.length || c1 < arr1.length) {
+
+            if (arr1[c1].compareTo(arr2[c2]) < 0) {
+                newArr[c3++] = arr1[c1++];
+            } else {
+                newArr[c3++] = arr2[c2++];
+            }
+        }
+        while (c1 < arr1.length  ) {
+            newArr[c3++] =  arr1[c1++];
+        }
+        while (c2 < arr2.length  ) {
+            newArr[c3++] = arr2[c2++];
+        }
+
+        return newArr;
     }
 
     public void swap(int indexOne, int indexTwo) {
