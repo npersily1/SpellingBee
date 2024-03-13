@@ -85,7 +85,7 @@ public class SpellingBee {
         int c2 = 0;
         int c3 = 0;
 
-        while (c2 < arr2.length || c1 < arr1.length) {
+        while (c2 < arr2.length && c1 < arr1.length) {
 
             if (arr1[c1].compareTo(arr2[c2]) < 0) {
                 newArr[c3++] = arr1[c1++];
