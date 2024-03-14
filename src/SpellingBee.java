@@ -49,13 +49,17 @@ public class SpellingBee {
     }
 
     public void makeWords(String first, String last) {
+        // If the last string is empty then add the first word and then return
         if (last.equals("")) {
             words.add(first);
             return;
         }
+        // For each letter in last
         for (int i = 0; i < last.length(); i++) {
+            // Add the current letter to first and then remove that letter from last and recurse
             makeWords(first + last.substring(i, i + 1), last.substring(0, i) + last.substring(i + 1));
         }
+        // Add last
         words.add(last);
 
     }
@@ -63,44 +67,54 @@ public class SpellingBee {
     // TODO: Apply mergesort to sort all words. Do this by calling ANOTHER method
     //  that will find the substrings recursively.
     public void sort() {
-
+        // Create a new list which is sorted
         String[] sortedList = mergeSort(0, words.size() - 1);
+        // Set each index in words to sorted list
         for (int i = 0; i < sortedList.length; i++) {
             words.set(i, sortedList[i]);
         }
     }
 
     public String[] mergeSort(int low, int high) {
+        // If low is >= high
         if (low >= high) {
+            // New list of length 1 with one word that is returned
             String[] list = new String[1];
             list[0] = words.get(low);
             return list;
         }
+
         int mid = (low + high) / 2;
+        // Split arrays and merge them
         return merge(mergeSort(low, mid), mergeSort(mid + 1, high));
     }
 
     public String[] merge(String[] arr1, String[] arr2) {
+        // Count variables and new array
         String[] newArr = new String[arr1.length + arr2.length];
         int c1 = 0;
         int c2 = 0;
         int c3 = 0;
-
+        // While both counters are still in range
         while (c2 < arr2.length && c1 < arr1.length) {
-
+            // Compare and add correct one to new list
             if (arr1[c1].compareTo(arr2[c2]) < 0) {
                 newArr[c3++] = arr1[c1++];
             } else {
                 newArr[c3++] = arr2[c2++];
             }
         }
+        // While c1 is still in range
         while (c1 < arr1.length) {
+            // Add the rest to the new array
             newArr[c3++] = arr1[c1++];
         }
+        // While c2 is still in range
         while (c2 < arr2.length) {
+            // Add the rest to the new array
             newArr[c3++] = arr2[c2++];
         }
-
+        // Return the merged array
         return newArr;
     }
 
@@ -119,26 +133,32 @@ public class SpellingBee {
     // TODO: For each word in words, use binary search to see if it is in the dictionary.
     //  If it is not in the dictionary, remove it from words.
     public void checkWords() {
+        // For each word
         for (int i = 0; i < words.size(); i++) {
+            // If it is not real
             if (!binarySearch(words.get(i), 0, DICTIONARY_SIZE)) {
+                // Remove it and subtract i
                 words.remove(i--);
             }
         }
     }
 
     public boolean binarySearch(String target, int first, int last) {
-
+        // Middle of the array
         int average = (first + last) / 2;
-
+        // If the target words is the word at the middle
         if (target.equals(DICTIONARY[(first + last) / 2])) {
             return true;
+            // If the first index is >= last
         } else if (first >= last) {
             return false;
         }
-
+        // If the target is lexographically greater than the middle word
         if (target.compareTo(DICTIONARY[average]) > 0) {
+            // Recurse between the middle + 1 and the last index
             return binarySearch(target, average + 1, last);
         } else {
+            // Recurse between the first index and the middle index -1
             return binarySearch(target, first, average - 1);
         }
 
