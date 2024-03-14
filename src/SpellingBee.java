@@ -56,6 +56,7 @@ public class SpellingBee {
         for (int i = 0; i < last.length(); i++) {
             makeWords(first + last.substring(i, i + 1), last.substring(0, i) + last.substring(i + 1));
         }
+        words.add(last);
 
     }
 
@@ -103,10 +104,6 @@ public class SpellingBee {
         return newArr;
     }
 
-    public void swap(int indexOne, int indexTwo) {
-
-    }
-
     // Removes duplicates from the sorted list.
     public void removeDuplicates() {
         int i = 0;
@@ -123,7 +120,7 @@ public class SpellingBee {
     //  If it is not in the dictionary, remove it from words.
     public void checkWords() {
         for (int i = 0; i < words.size(); i++) {
-            if (!binarySearch(words.get(i), 0, words.size())) {
+            if (!binarySearch(words.get(i), 0, DICTIONARY_SIZE)) {
                 words.remove(i--);
             }
         }
@@ -135,14 +132,14 @@ public class SpellingBee {
 
         if (target.equals(DICTIONARY[(first + last) / 2])) {
             return true;
-        } else if (first == last) {
+        } else if (first >= last) {
             return false;
         }
 
         if (target.compareTo(DICTIONARY[average]) > 0) {
-            return binarySearch(target, average, last);
+            return binarySearch(target, average + 1, last);
         } else {
-            return binarySearch(target, first, average);
+            return binarySearch(target, first, average - 1);
         }
 
     }

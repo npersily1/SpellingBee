@@ -1,6 +1,6 @@
+a
 act
-atc
+at
+ca
 cat
-cta
-tac
-tca
+ct
