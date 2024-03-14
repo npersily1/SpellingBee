@@ -93,10 +93,10 @@ public class SpellingBee {
                 newArr[c3++] = arr2[c2++];
             }
         }
-        while (c1 < arr1.length  ) {
-            newArr[c3++] =  arr1[c1++];
+        while (c1 < arr1.length) {
+            newArr[c3++] = arr1[c1++];
         }
-        while (c2 < arr2.length  ) {
+        while (c2 < arr2.length) {
             newArr[c3++] = arr2[c2++];
         }
 
@@ -122,7 +122,29 @@ public class SpellingBee {
     // TODO: For each word in words, use binary search to see if it is in the dictionary.
     //  If it is not in the dictionary, remove it from words.
     public void checkWords() {
-        // YOUR CODE HERE
+        for (int i = 0; i < words.size(); i++) {
+            if (!binarySearch(words.get(i), 0, words.size())) {
+                words.remove(i--);
+            }
+        }
+    }
+
+    public boolean binarySearch(String target, int first, int last) {
+
+        int average = (first + last) / 2;
+
+        if (target.equals(DICTIONARY[(first + last) / 2])) {
+            return true;
+        } else if (first == last) {
+            return false;
+        }
+
+        if (target.compareTo(DICTIONARY[average]) > 0) {
+            return binarySearch(target, average, last);
+        } else {
+            return binarySearch(target, first, average);
+        }
+
     }
 
     // Prints all valid words to wordList.txt
